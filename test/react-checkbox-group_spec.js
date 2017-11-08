@@ -14,6 +14,17 @@ function _findInputWithValue(wrapper, value) {
 
 describe('ReactCheckboxGroup', function() {
 
+  it('Renders correctly when `Checkbox` is not a direct child of `CheckboxGroup`', function() {
+    var component = renderIntoDocument(
+      <CheckboxGroup checkboxDepth={2} name="fruit">
+        <label><Checkbox value="kiwi"/> Kiwi</label>
+        <label><Checkbox value="watermelon"/> Watermelon</label>
+      </CheckboxGroup>
+    );
+
+    expect(component).to.be.ok;
+  });
+
   it('Passes the `name` prop down to the boxes', function() {
     var component = renderIntoDocument(
       <CheckboxGroup name="fruit">

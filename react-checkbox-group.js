@@ -157,7 +157,7 @@ var CheckboxGroup = exports.CheckboxGroup = function (_Component2) {
       }
 
       if (typeof this.props.onChange === 'function') {
-        this.props.onChange(newValue, event);
+        this.props.onChange(newValue, event, this.props.name);
       }
     }
   }]);
