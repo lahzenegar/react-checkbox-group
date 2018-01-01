@@ -1,51 +1,90 @@
 import React, {Component} from 'react';
+import PropTypes from 'prop-types';
+import './style.css';
 
 export class Checkbox extends Component {
-  static displayName = 'Checkbox';
+  displayName: 'Checkbox';
+
+  static contextTypes = {
+    checkboxGroup: PropTypes.object.isRequired
+  }
 
   componentWillMount() {
-    if (!(this.props && this.props.checkboxGroup)) {
+    if (!(this.context && this.context.checkboxGroup)) {
       throw new Error('The `Checkbox` component must be used as a child of `CheckboxGroup`.');
     }
   }
 
   render() {
-    const {checkboxGroup: {name, checkedValues, onChange}, ...rest} = this.props;
+    const {name, checkedValues, onChange} = this.context.checkboxGroup;
     const optional = {};
+    let classes;
     if (checkedValues) {
       optional.checked = (checkedValues.indexOf(this.props.value) >= 0);
+      if(checkedValues.indexOf(this.props.value) >= 0) {
+        classes = `__checked`;
+      }
     }
     if (typeof onChange === 'function') {
       optional.onChange = onChange.bind(null, this.props.value);
     }
 
     return (
-      <input
-        {...rest}
-        type="checkbox"
-        name={name}
-        disabled={this.props.disabled}
-        {...optional}
-      />
+      <label className={classes}>
+        <input
+          type="checkbox"
+          name={name}
+          disabled={this.props.disabled}
+          {...optional}
+          />
+         {this.props.children}
+      </label>
     );
   }
 }
 
 export class CheckboxGroup extends Component {
-  static displayName = 'CheckboxGroup';
+  displayName: 'CheckboxGroup';
+
+  static childContextTypes = {
+    checkboxGroup: PropTypes.object.isRequired
+  }
+
+  static propTypes = {
+    name: PropTypes.string,
+    defaultValue: PropTypes.array,
+    value: PropTypes.array,
+    onChange: PropTypes.func,
+    children: PropTypes.node.isRequired,
+    Component: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.func,
+      PropTypes.object
+    ])
+  }
 
   static defaultProps = {
     Component: "div"
-  };
+  }
 
   constructor(props) {
     super(props);
     this._isControlledComponent = this._isControlledComponent.bind(this);
     this._onCheckboxChange = this._onCheckboxChange.bind(this);
+    this.getChildContext = this.getChildContext.bind(this);
     this.getValue = this.getValue.bind(this);
     this.state = {
       value: this.props.value || this.props.defaultValue || []
     };
+  }
+
+  getChildContext() {
+    const checkboxGroup = {
+      name: this.props.name,
+      checkedValues: this.state.value,
+      onChange: this._onCheckboxChange
+    };
+    return {checkboxGroup};
   }
 
   componentWillReceiveProps(newProps) {
@@ -56,33 +95,9 @@ export class CheckboxGroup extends Component {
     }
   }
 
-  _prepareBoxes = (children, maxDepth=1, depth=1) => {
-    if (depth > maxDepth) {
-      return children;
-    }
-
-    const checkboxGroup = {
-      name: this.props.name,
-      checkedValues: this.state.value,
-      onChange: this._onCheckboxChange
-    };
-
-    return React.Children.map(children, child => {
-      if (!child.$$typeof) {
-        return child;
-      }
-      else if (child.type === Checkbox) {
-        return React.cloneElement(child, {checkboxGroup})
-      }
-      else {
-        return React.cloneElement(child, {}, child.props.children ? React.Children.map(child.props.children, c => this._prepareBoxes(c, maxDepth, depth + 1)) : null)
-      }
-    });
-  };
-
   render() {
-    const {Component, name, value, onChange, children, checkboxDepth = 1, ...rest} = this.props;
-    return <Component {...rest}>{this._prepareBoxes(children, checkboxDepth)}</Component>;
+    const {Component, name, value, onChange, children, ...rest} = this.props;
+    return <Component className="react-checkbox-group" {...rest}>{children}</Component>;
   }
 
   getValue() {

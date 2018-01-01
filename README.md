@@ -1,18 +1,15 @@
-# [React](http://facebook.github.io/react/)-checkbox-group
-### Heavily inspired from https://github.com/chenglou/react-radio-group
-
-[![Greenkeeper badge](https://badges.greenkeeper.io/ziad-saab/react-checkbox-group.svg)](https://greenkeeper.io/)
-
-[![Build Status](https://travis-ci.org/ziad-saab/react-checkbox-group.svg?branch=master)](https://travis-ci.org/ziad-saab/react-checkbox-group)
+# react-checkbox-group
+### A fork from https://github.com/ziad-saab/react-checkbox-group
+### Modified and customized for [Lahzenegar](https://lahzenegar.com/)
 
 This is your average checkbox group:
 
 ```html
-<form>
-  <input onChange={this.handleFruitChange} type="checkbox" name="fruit" value="apple" />Apple
-  <input onChange={this.handleFruitChange} type="checkbox" name="fruit" value="orange" />Orange
-  <input onChange={this.handleFruitChange} type="checkbox" name="fruit" value="watermelon" />Watermelon
-</form>
+<div class="react-checkbox-group">
+  <label><input onChange={this.handleFruitChange} type="checkbox" name="fruit" value="apple" />Apple</label>
+  <label><input onChange={this.handleFruitChange} type="checkbox" name="fruit" value="orange" />Orange</label>
+  <label><input onChange={this.handleFruitChange} type="checkbox" name="fruit" value="watermelon" />Watermelon</label>
+</div>
 ```
 
 Repetitive, hard to manipulate and easily desynchronized.
@@ -22,9 +19,9 @@ Lift up `name` and `onChange`, and give the group an initial checked values arra
 import {Checkbox, CheckboxGroup} from 'react-checkbox-group';
 
 <CheckboxGroup name="fruits" value={['kiwi', 'pineapple']} onChange={this.fruitsChanged}>
-  <Checkbox value="kiwi"/>
-  <Checkbox value="pineapple"/>
-  <Checkbox value="watermelon"/>
+  <Checkbox value="kiwi">Kiwi</Checkbox>
+  <Checkbox value="pineapple">Pineapple</Checkbox>
+  <Checkbox value="watermelon">Watermelon</Checkbox>
 </CheckboxGroup>
 ```
 
@@ -49,12 +46,6 @@ That's it for the API! See below for a complete example.
 ## Install
 
 ```sh
-bower install react-checkbox-group
-```
-
-or
-
-```sh
 npm install react-checkbox-group
 ```
 
@@ -68,11 +59,6 @@ var CheckboxGroup = Check.CheckboxGroup;
 // or ES6
 import {Checkbox, CheckboxGroup} from 'react-checkbox-group';
 ```
-
-## Nested `Checkbox`
-If you render `Checkbox`es deeply nested inside the `CheckboxGroup`, you need to pass a `checkboxDepth` prop to the `CheckboxGroup` so that it can manage the checkboxes without too much overhead.
-
-This is shown in the example below where the `<Checkbox>` elements are nested inside `<label>`s.
 
 ## Example
 
@@ -99,14 +85,13 @@ class Demo extends React.Component {
     // attached the `name` attribute correctly. `value` is optional
     return (
       <CheckboxGroup
-        checkboxDepth={2} // This is needed to optimize the checkbox group
         name="fruits"
         value={this.state.fruits}
         onChange={this.fruitsChanged}>
 
-        <label><Checkbox value="apple"/> Apple</label>
-        <label><Checkbox value="orange"/> Orange</label>
-        <label><Checkbox value="watermelon"/> Watermelon</label>
+        <Checkbox value="apple"> Apple</Checkbox>
+        <Checkbox value="orange"> Orange</Checkbox>
+        <Checkbox value="watermelon"> Watermelon</Checkbox>
       </CheckboxGroup>
     );
   }

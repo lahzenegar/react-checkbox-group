@@ -1,0 +1,60 @@
+.react-checkbox-group {
+	flex-wrap: wrap;
+}
+.react-checkbox-group,
+.react-checkbox-group > label {
+	-webkit-box-align: stretch;
+    -ms-flex-align: stretch;
+    align-items: stretch;
+    box-sizing: border-box;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: row;
+    flex-direction: row;
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+    margin: 0;
+    padding: 0;
+    position: relative;
+}
+.react-checkbox-group > label {
+    background-color: transparent;
+    border: 2px solid #b3b3b3;
+    border-radius: 16px;
+    color: #757575;
+    height: 30px;
+    padding: 0 8px;
+    margin: 0 0 8px 8px;
+    cursor: pointer;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+.react-checkbox-group > label:hover,
+.react-checkbox-group > label:focus {
+	background-color: #b3b3b3;
+    border: 2px solid #b3b3b3;
+	color: #ffffff;
+}
+.react-checkbox-group > label > input[type='checkbox'] {
+	position: absolute;
+	opacity: 0;
+	margin: 0;
+	padding: 0;
+	width: 0;
+    border: none;
+}
+.react-checkbox-group > label.__checked {
+	background-color: #df254d;
+    border: 2px solid #df254d;
+	color: #ffffff;
+}
+.react-checkbox-group > label.__checked:hover,
+.react-checkbox-group > label.__checked:focus {
+	background-color: #ce2148;
+    border: 2px solid #ce2148;
+}
